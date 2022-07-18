@@ -13,8 +13,8 @@ import {
 describe('FavoriteAlbum e2e test', () => {
   const favoriteAlbumPageUrl = '/favorite-album';
   const favoriteAlbumPageUrlPattern = new RegExp('/favorite-album(\\?.*)?$');
-  const username = Cypress.env('E2E_USERNAME') ?? 'user';
-  const password = Cypress.env('E2E_PASSWORD') ?? 'user';
+  const username = Cypress.env('E2E_USERNAME') ?? 'admin';
+  const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
   const favoriteAlbumSample = { login: 'Ball', albumSpotifyId: 'Awesome Grands', rank: 11031 };
 
   let favoriteAlbum;
@@ -159,6 +159,8 @@ describe('FavoriteAlbum e2e test', () => {
 
       cy.get(`[data-cy="comment"]`).type('parsing Phased').should('have.value', 'parsing Phased');
 
+      cy.screenshot('favorite-album-update');
+
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {
@@ -169,7 +171,6 @@ describe('FavoriteAlbum e2e test', () => {
         expect(response?.statusCode ?? -1).to.equal(200);
       });
       cy.url().should('match', favoriteAlbumPageUrlPattern);
-      cy.screenshot('favorite-album-update');
     });
   });
 });

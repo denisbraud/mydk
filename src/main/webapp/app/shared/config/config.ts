@@ -40,6 +40,8 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons/faUserPlus';
 import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
 import { faUsersCog } from '@fortawesome/free-solid-svg-icons/faUsersCog';
 import { faWrench } from '@fortawesome/free-solid-svg-icons/faWrench';
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons/faCircleQuestion';
+import { faCompactDisc } from '@fortawesome/free-solid-svg-icons/faCompactDisc';
 
 import VueCookie from 'vue-cookie';
 import Vuelidate from 'vuelidate';
@@ -123,7 +125,9 @@ export function initFortAwesome(vue) {
     faUserPlus,
     faUsers,
     faUsersCog,
-    faWrench
+    faWrench,
+    faCircleQuestion,
+    faCompactDisc
   );
 }
 

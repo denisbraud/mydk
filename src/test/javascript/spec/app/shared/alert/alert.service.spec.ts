@@ -39,7 +39,7 @@ describe('Alert Service test suite', () => {
     expect(
       toastStub.calledOnceWith(message, {
         toaster: 'b-toaster-top-center',
-        title: 'Error',
+        title: 'My Discotek',
         variant: 'danger',
         solid: true,
         autoHideDelay: 5000,
@@ -64,7 +64,7 @@ describe('Alert Service test suite', () => {
     expect(
       toastStub.calledOnceWith(message, {
         toaster: 'b-toaster-top-center',
-        title: 'Error',
+        title: 'My Discotek',
         variant: 'danger',
         solid: true,
         autoHideDelay: 5000,
@@ -94,7 +94,7 @@ describe('Alert Service test suite', () => {
     expect(
       toastStub.calledOnceWith(message, {
         toaster: 'b-toaster-top-center',
-        title: 'Error',
+        title: 'My Discotek',
         variant: 'danger',
         solid: true,
         autoHideDelay: 5000,

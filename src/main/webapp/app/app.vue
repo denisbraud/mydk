@@ -4,10 +4,8 @@
     <div id="app-header">
       <jhi-navbar></jhi-navbar>
     </div>
-    <div class="container-fluid">
-      <div class="card jh-card">
-        <router-view></router-view>
-      </div>
+    <div class="container-fluid pt-3">
+      <router-view></router-view>
       <b-modal id="login-page" hide-footer lazy>
         <span data-cy="loginTitle" slot="modal-title" id="login-title" v-text="$t('login.title')">Sign in</span>
         <login-form></login-form>

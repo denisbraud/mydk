@@ -1,8 +1,8 @@
 <template>
-  <b-navbar data-cy="navbar" toggleable="md" type="dark" class="jh-navbar">
-    <b-navbar-brand class="logo" b-link to="/">
-      <span class="logo-img"></span>
-      <span v-text="$t('global.title')" class="navbar-title">mydk</span> <span class="navbar-version">{{ version }}</span>
+  <b-navbar data-cy="navbar" toggleable="md" type="dark" class="jh-navbar py-0 pr-0">
+    <b-navbar-brand b-link to="/">
+      <font-awesome-icon icon="compact-disc"></font-awesome-icon>
+      <span v-text="$t('global.title')" :title="version"> My Discotek</span>
     </b-navbar-brand>
     <b-navbar-toggle
       right
@@ -18,16 +18,21 @@
 
     <b-collapse is-nav id="header-tabs">
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/" exact>
+        <b-nav-item to="/doc/MyDiscotek_NU_USER.html" v-if="authenticated">
           <span>
-            <font-awesome-icon icon="home" />
-            <span v-text="$t('global.menu.home')">Home</span>
+            <font-awesome-icon icon="circle-question" />
           </span>
         </b-nav-item>
-        <b-nav-item-dropdown right id="entity-menu" v-if="authenticated" active-class="active" class="pointer" data-cy="entity">
+        <b-nav-item-dropdown
+          right
+          id="entity-menu"
+          v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated"
+          active-class="active"
+          class="pointer"
+          data-cy="entity"
+        >
           <span slot="button-content" class="navbar-dropdown-menu">
             <font-awesome-icon icon="th-list" />
-            <span class="no-bold" v-text="$t('global.menu.entities.main')">Entities</span>
           </span>
           <entities-menu></entities-menu>
           <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -43,7 +48,6 @@
         >
           <span slot="button-content" class="navbar-dropdown-menu">
             <font-awesome-icon icon="users-cog" />
-            <span class="no-bold" v-text="$t('global.menu.admin.main')">Administration</span>
           </span>
           <b-dropdown-item to="/admin/user-management" active-class="active">
             <font-awesome-icon icon="users" />
@@ -95,7 +99,6 @@
         >
           <span slot="button-content" class="navbar-dropdown-menu">
             <font-awesome-icon icon="user" />
-            <span class="no-bold" v-text="$t('global.menu.account.main')"> Account </span>
           </span>
           <b-dropdown-item data-cy="settings" to="/account/settings" tag="b-dropdown-item" v-if="authenticated" active-class="active">
             <font-awesome-icon icon="wrench" />
@@ -137,21 +140,9 @@
 /* ==========================================================================
     Navbar
     ========================================================================== */
-.navbar-version {
-  font-size: 10px;
-  color: #ccc;
-}
-
 .jh-navbar {
-  background-color: #353d47;
+  background-color: #000;
   padding: 0.2em 1em;
-}
-
-.jh-navbar .profile-image {
-  margin: -10px 0px;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
 }
 
 .jh-navbar .dropdown-item.active,
@@ -197,33 +188,5 @@
   span span {
     display: none;
   }
-}
-
-.navbar-title {
-  display: inline-block;
-  vertical-align: middle;
-  color: white;
-}
-
-/* ==========================================================================
-    Logo styles
-    ========================================================================== */
-.navbar-brand.logo {
-  padding: 5px 15px;
-}
-
-.logo .logo-img {
-  height: 45px;
-  display: inline-block;
-  vertical-align: middle;
-  width: 70px;
-}
-
-.logo-img {
-  height: 100%;
-  background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
-  background-size: contain;
-  width: 100%;
-  filter: drop-shadow(0 0 0.05rem white);
 }
 </style>

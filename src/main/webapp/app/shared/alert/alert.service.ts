@@ -1,23 +1,24 @@
 import Vue from 'vue';
 
 export default class AlertService {
-  public showError(instance: Vue, message: string, params?: any) {
+  public show(variant: string, instance: Vue, message: string, params?: any) {
     const alertMessage = instance.$t(message, params);
     instance.$root.$bvToast.toast(alertMessage.toString(), {
       toaster: 'b-toaster-top-center',
-      title: 'Error',
-      variant: 'danger',
+      title: 'My Discotek',
+      variant: variant,
       solid: true,
       autoHideDelay: 5000,
     });
   }
-
+  public showError(instance: Vue, message: string, params?: any) {
+    this.show('danger', instance, message, params);
+  }
   public showHttpError(instance: Vue, httpErrorResponse: any) {
     switch (httpErrorResponse.status) {
       case 0:
         this.showError(instance, 'error.server.not.reachable');
         break;
-
       case 400: {
         const arr = Object.keys(httpErrorResponse.headers);
         let errorHeader: string | null = null;
@@ -39,11 +40,9 @@ export default class AlertService {
         }
         break;
       }
-
       case 404:
         this.showError(instance, 'error.http.404');
         break;
-
       default:
         this.showError(instance, httpErrorResponse.data.message);
     }
