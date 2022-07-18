@@ -23,6 +23,7 @@ import UserManagementService from './admin/user-management/user-management.servi
 import LoginService from './account/login.service';
 import AccountService from './account/account.service';
 import AlertService from './shared/alert/alert.service';
+import SpotifyService from './core/home/spotify.service';
 
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
@@ -87,6 +88,7 @@ const vue = new Vue({
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
     accountService: () => accountService,
     alertService: () => new AlertService(),
+    spotifyService: () => new SpotifyService(),
   },
   i18n,
   store,

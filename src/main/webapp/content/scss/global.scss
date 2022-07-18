@@ -262,3 +262,10 @@ ui bootstrap tweaks
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+/* imghover */
+a.imghover img {z-index:1;opacity:1;}
+a.imghover:hover img {opacity:0.3;}
+a.imghover span {z-index:2;opacity:0;}
+a.imghover:hover span {opacity:1;}
+a.imghover span {position: absolute;top:10%;left:10%;}
