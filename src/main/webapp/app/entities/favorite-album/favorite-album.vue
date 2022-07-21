@@ -36,6 +36,7 @@
               <span v-text="$t('mydkApp.favoriteAlbum.login')">Login</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'login'"></jhi-sort-indicator>
             </th>
+            <th scope="col"></th>
             <th scope="row" v-on:click="changeOrder('albumSpotifyId')">
               <span v-text="$t('mydkApp.favoriteAlbum.albumSpotifyId')">Album Spotify Id</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'albumSpotifyId'"></jhi-sort-indicator>
@@ -59,6 +60,7 @@
               }}</router-link>
             </td>
             <td>{{ favoriteAlbum.login }}</td>
+            <td style="max-width: 50px"><img :src="favoriteAlbum.album.imageUrl" alt="x" class="img-fluid border" /></td>
             <td>{{ favoriteAlbum.albumSpotifyId }}</td>
             <td>{{ favoriteAlbum.rank }}</td>
             <td>{{ favoriteAlbum.comment }}</td>

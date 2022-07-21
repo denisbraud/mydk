@@ -18,6 +18,6 @@ Une fois connecté, la page d'accueil permet de :
 
 - todo.
 
-| Page d'accueil | |
+| Page d'accueil | Ajout Favori |
 | --- | --- |
-| ![img](../resources/images/home.png) | ![img](../resources/images/1200.png) |
+| ![img](../resources/images/home.png) | ![img](../resources/images/entities/favorite-album-update.png) |

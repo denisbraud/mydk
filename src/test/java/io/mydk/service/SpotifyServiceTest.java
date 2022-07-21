@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 class SpotifyServiceTest {
     private static RestTemplate restTemplate = new RestTemplate();
-    private static SpotifyService spotifyService = new SpotifyService(restTemplate);
+    private static SpotifyService spotifyService = new SpotifyService(restTemplate, null);
 
     @Test
     void searchAlbum() {

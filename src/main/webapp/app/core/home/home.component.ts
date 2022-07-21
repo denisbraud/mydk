@@ -15,6 +15,11 @@ export default class Home extends Vue {
   public albums: any[] = [];
   public isLoading = false;
 
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.loadFavorite();
+    });
+  }
   public openLogin(): void {
     this.loginService().openLogin((<any>this).$root);
   }
@@ -23,6 +28,11 @@ export default class Home extends Vue {
   }
   public get username(): string {
     return this.$store.getters.account?.login ?? '';
+  }
+  public loadFavorite(): void {
+    this.artistName = '';
+    this.albumName = '';
+    this.search();
   }
   public search(): void {
     this.isLoading = true;

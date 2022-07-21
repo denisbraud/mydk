@@ -1,5 +1,8 @@
 package io.mydk.service;
 
+import io.mydk.domain.FavoriteAlbum;
+import io.mydk.repository.FavoriteAlbumRepository;
+import io.mydk.security.SecurityUtils;
 import io.mydk.service.dto.AlbumDTO;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -9,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +32,7 @@ public class SpotifyService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private static final String ITEMS = "items";
     private final RestTemplate restTemplate;
+    private final FavoriteAlbumRepository favoriteAlbumRepository;
     private String accessToken = null;
 
     private static class SpotifyServiceException extends RuntimeException {
@@ -38,8 +43,9 @@ public class SpotifyService {
         }
     }
 
-    public SpotifyService(RestTemplate restTemplate) {
+    public SpotifyService(RestTemplate restTemplate, FavoriteAlbumRepository favoriteAlbumRepository) {
         this.restTemplate = restTemplate;
+        this.favoriteAlbumRepository = favoriteAlbumRepository;
     }
 
     private String getAccessToken(boolean forceNew) {
@@ -76,6 +82,9 @@ public class SpotifyService {
 
     public List<AlbumDTO> searchAlbum(String artistName, String albumName, boolean mainAlbumOnly, boolean exactMatch) {
         String q = getSearchQuery(artistName, albumName);
+        if (q.isEmpty() && favoriteAlbumRepository != null) {
+            return getCurrentUserFavoriteAlbums();
+        }
         Map<String, Object> result = getApiResult("search?type=album&offset=0&limit=50&q=" + q);
         Map<String, Object> albums = getAttributes(result, "albums");
         List<Map<String, Object>> itemsAlbums = getArray(albums, ITEMS);
@@ -83,6 +92,7 @@ public class SpotifyService {
         if (exactMatch) {
             dtos = exactMatch(dtos, artistName, albumName);
         }
+        addFavoriteInfos(dtos);
         Collections.sort(dtos);
         return dtos;
     }
@@ -108,6 +118,35 @@ public class SpotifyService {
     public AlbumDTO getAlbum(String spotifyId) {
         Map<String, Object> result = getApiResult("albums/" + spotifyId);
         return mapToAlbum(result);
+    }
+
+    private List<AlbumDTO> getCurrentUserFavoriteAlbums() {
+        String currentLogin = SecurityUtils.getCurrentUserLogin().orElse(null);
+        if (favoriteAlbumRepository == null || StringUtils.isBlank(currentLogin)) {
+            return Collections.emptyList();
+        }
+        List<FavoriteAlbum> albums = favoriteAlbumRepository.findByLogin(currentLogin);
+        List<String> spotifyIds = albums.stream().map(FavoriteAlbum::getAlbumSpotifyId).collect(Collectors.toList());
+        Map<String, AlbumDTO> spotifyAlbums = getAlbums(spotifyIds);
+        List<AlbumDTO> dtos = new ArrayList<>();
+        for (FavoriteAlbum album : albums) {
+            AlbumDTO dto = spotifyAlbums.get(album.getAlbumSpotifyId());
+            dtos.add(addFavoriteInfos(dto, album));
+        }
+        Collections.sort(dtos);
+        return dtos;
+    }
+
+    private void addFavoriteInfos(List<AlbumDTO> dtos) {
+        String currentLogin = SecurityUtils.getCurrentUserLogin().orElse(null);
+        if (favoriteAlbumRepository == null || StringUtils.isBlank(currentLogin)) {
+            return;
+        }
+        List<FavoriteAlbum> albums = favoriteAlbumRepository.findByLogin(currentLogin);
+        for (AlbumDTO dto : dtos) {
+            FavoriteAlbum album = albums.stream().filter(a -> a.getAlbumSpotifyId().equals(dto.getSpotifyId())).findAny().orElse(null);
+            addFavoriteInfos(dto, album);
+        }
     }
 
     private static boolean isMainAlbum(AlbumDTO dto) {
@@ -263,6 +302,16 @@ public class SpotifyService {
             }
         }
         dto.setImageUrl(imageUrl);
+        return dto;
+    }
+
+    public static AlbumDTO addFavoriteInfos(AlbumDTO dto, FavoriteAlbum album) {
+        if (dto == null || album == null) {
+            return dto;
+        }
+        dto.setFavoriteAlbumId(album.getId());
+        dto.setRank(album.getRank());
+        dto.setComment(album.getComment());
         return dto;
     }
 }

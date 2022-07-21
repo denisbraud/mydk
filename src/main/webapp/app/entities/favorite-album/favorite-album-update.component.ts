@@ -37,11 +37,19 @@ export default class FavoriteAlbumUpdate extends Vue {
   public favoriteAlbum: IFavoriteAlbum = new FavoriteAlbum();
   public isSaving = false;
   public currentLanguage = '';
+  private removeId: number = null;
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (to.params.favoriteAlbumId) {
         vm.retrieveFavoriteAlbum(to.params.favoriteAlbumId);
+      } else {
+        vm.favoriteAlbum.login = to.params.login;
+        if (to.params.album) {
+          vm.favoriteAlbum.albumSpotifyId = to.params.album.spotifyId;
+          vm.favoriteAlbum.album = to.params.album;
+          vm.favoriteAlbum.rank = 50;
+        }
       }
     });
   }
@@ -62,13 +70,8 @@ export default class FavoriteAlbumUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = this.$t('mydkApp.favoriteAlbum.updated', { param: param.id });
-          return this.$root.$bvToast.toast(message.toString(), {
-            toaster: 'b-toaster-top-center',
-            title: 'Info',
-            variant: 'info',
-            solid: true,
-            autoHideDelay: 5000,
+          this.alertService().show('info', this, 'mydkApp.favoriteAlbum.updated', {
+            param: this.favoriteAlbum.album ? this.favoriteAlbum.album.artistName + ' · ' + this.favoriteAlbum.album.name : param.id,
           });
         })
         .catch(error => {
@@ -81,13 +84,8 @@ export default class FavoriteAlbumUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = this.$t('mydkApp.favoriteAlbum.created', { param: param.id });
-          this.$root.$bvToast.toast(message.toString(), {
-            toaster: 'b-toaster-top-center',
-            title: 'Success',
-            variant: 'success',
-            solid: true,
-            autoHideDelay: 5000,
+          this.alertService().show('success', this, 'mydkApp.favoriteAlbum.created', {
+            param: this.favoriteAlbum.album ? this.favoriteAlbum.album.artistName + ' · ' + this.favoriteAlbum.album.name : param.id,
           });
         })
         .catch(error => {
@@ -108,5 +106,29 @@ export default class FavoriteAlbumUpdate extends Vue {
   }
   public previousState(): void {
     this.$router.go(-1);
+  }
+  public prepareRemove(): void {
+    this.removeId = this.favoriteAlbum.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
+  }
+  public removeFavoriteAlbum(): void {
+    this.favoriteAlbumService()
+      .delete(this.removeId)
+      .then(() => {
+        this.alertService().show('danger', this, 'mydkApp.favoriteAlbum.deleted', {
+          param: this.favoriteAlbum.album ? this.favoriteAlbum.album.artistName + ' · ' + this.favoriteAlbum.album.name : this.removeId,
+        });
+        this.removeId = null;
+        this.closeDialog();
+        this.$router.go(-1);
+      })
+      .catch(error => {
+        this.alertService().showHttpError(this, error.response);
+      });
+  }
+  public closeDialog(): void {
+    (<any>this.$refs.removeEntity).hide();
   }
 }

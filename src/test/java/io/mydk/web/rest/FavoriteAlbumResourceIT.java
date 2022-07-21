@@ -34,8 +34,8 @@ class FavoriteAlbumResourceIT {
     private static final String DEFAULT_LOGIN = "AAAAAAAAAA";
     private static final String UPDATED_LOGIN = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ALBUM_SPOTIFY_ID = "AAAAAAAAAA";
-    private static final String UPDATED_ALBUM_SPOTIFY_ID = "BBBBBBBBBB";
+    private static final String DEFAULT_ALBUM_SPOTIFY_ID = "5vBZRYu2GLA65nfxBvG1a7";
+    private static final String UPDATED_ALBUM_SPOTIFY_ID = "1YZWEKi3WAzSk6IGnObgUO";
 
     private static final Integer DEFAULT_RANK = 1;
     private static final Integer UPDATED_RANK = 2;

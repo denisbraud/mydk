@@ -15,6 +15,10 @@ public class AlbumDTO implements Comparable<AlbumDTO>, Serializable {
     private String releaseDate;
     private int totalTracks;
 
+    private Long favoriteAlbumId;
+    private Integer rank;
+    private String comment;
+
     public String getSpotifyId() {
         return spotifyId;
     }
@@ -77,6 +81,30 @@ public class AlbumDTO implements Comparable<AlbumDTO>, Serializable {
 
     public void setTotalTracks(int totalTracks) {
         this.totalTracks = totalTracks;
+    }
+
+    public Long getFavoriteAlbumId() {
+        return favoriteAlbumId;
+    }
+
+    public void setFavoriteAlbumId(Long favoriteAlbumId) {
+        this.favoriteAlbumId = favoriteAlbumId;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override

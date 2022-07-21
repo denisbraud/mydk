@@ -4,6 +4,7 @@ export interface IFavoriteAlbum {
   albumSpotifyId?: string;
   rank?: number;
   comment?: string | null;
+  album?: any | null;
 }
 
 export class FavoriteAlbum implements IFavoriteAlbum {
@@ -12,6 +13,7 @@ export class FavoriteAlbum implements IFavoriteAlbum {
     public login?: string,
     public albumSpotifyId?: string,
     public rank?: number,
-    public comment?: string | null
+    public comment?: string | null,
+    public album?: any | null
   ) {}
 }

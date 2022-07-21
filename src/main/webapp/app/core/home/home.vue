@@ -18,6 +18,9 @@
             <button class="btn btn-primary" type="submit" :disabled="isLoading">
               <font-awesome-icon icon="search"></font-awesome-icon> Rechercher
             </button>
+            <button class="btn btn-primary" v-on:click="loadFavorite" :disabled="isLoading">
+              <font-awesome-icon icon="compact-disc"></font-awesome-icon> My Discotek
+            </button>
           </div>
         </div>
       </form>
@@ -31,10 +34,37 @@
                 {{ album.releaseDate }} · {{ album.totalTracks }} titres<br />
                 {{ album.type }} {{ album.nameSuffix }} </small
               ><br /><br />
+              <router-link
+                v-if="album.favoriteAlbumId"
+                :to="{ name: 'FavoriteAlbumEdit', params: { favoriteAlbumId: album.favoriteAlbumId } }"
+                custom
+                v-slot="{ navigate }"
+              >
+                <button @click="navigate" class="btn btn-outline-primary btn-sm edit" :disabled="isLoading">
+                  <font-awesome-icon icon="compact-disc"></font-awesome-icon> Modifier / Supprimer
+                </button>
+              </router-link>
+              <router-link
+                v-else
+                :to="{ name: 'FavoriteAlbumCreate', params: { login: username, album: album } }"
+                custom
+                v-slot="{ navigate }"
+              >
+                <button
+                  @click="navigate"
+                  class="btn btn-outline-primary btn-sm jh-create-entity create-favorite-album"
+                  :disabled="isLoading"
+                >
+                  <font-awesome-icon icon="compact-disc"></font-awesome-icon> Ajouter
+                </button>
+              </router-link>
             </span> </a
           ><br />
           <small>
             {{ album.releaseDate }}
+            <span v-if="album.favoriteAlbumId" class="text-primary"
+              ><font-awesome-icon icon="compact-disc"></font-awesome-icon> {{ album.comment }}</span
+            >
           </small>
         </div>
       </div>

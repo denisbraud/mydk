@@ -27,6 +27,8 @@ public class FavoriteAlbumDTO implements Serializable {
     @Size(max = 255)
     private String comment;
 
+    private AlbumDTO album;
+
     public Long getId() {
         return id;
     }
@@ -65,6 +67,14 @@ public class FavoriteAlbumDTO implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public AlbumDTO getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(AlbumDTO album) {
+        this.album = album;
     }
 
     @Override

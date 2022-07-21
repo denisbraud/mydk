@@ -2,26 +2,26 @@
   "mydkApp": {
     "favoriteAlbum": {
       "home": {
-        "title": "FavoriteAlbums",
-        "refreshListLabel": "Actualiser la liste",
-        "createLabel": "Créer un nouveau Favorite Album",
-        "createOrEditLabel": "Créer ou éditer un Favorite Album",
-        "notFound": "Aucun Favorite Album trouvé"
+        "title": "Favoris Album",
+        "refreshListLabel": "Actualiser",
+        "createLabel": "Ajouter à My Discotek",
+        "createOrEditLabel": "Créer ou éditer un Favori Album",
+        "notFound": "Aucun Favori Album trouvé"
       },
-      "created": "Un nouveau Favorite Album a été créé avec l'identifiant {{ param }}",
-      "updated": "Le Favorite Album avec l'identifiant {{ param }} a été mis à jour",
-      "deleted": "Le Favorite Album avec l'identifiant {{ param }} a été supprimé",
+      "created": "L'Album '{{ param }}' a été ajouté à My Discotek",
+      "updated": "L'Album '{{ param }}' a été mis à jour",
+      "deleted": "L'Album '{{ param }}' a été supprimé de My Discotek",
       "delete": {
-        "question": "Êtes-vous certain de vouloir supprimer le Favorite Album {{ id }} ?"
+        "question": "Êtes-vous certain de vouloir supprimer l'Album {{ id }} de My Discotek ?"
       },
       "detail": {
-        "title": "Favorite Album"
+        "title": "Favori Album"
       },
       "id": "ID",
       "login": "Login",
       "albumSpotifyId": "Album Spotify Id",
-      "rank": "Rank",
-      "comment": "Comment"
+      "rank": "Classement",
+      "comment": "Commentaire"
     }
   }
 }
