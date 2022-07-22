@@ -26,7 +26,7 @@ export default class JhiDataUtils extends Vue {
    * Method to open file
    */
   openFile(contentType, data) {
-    const byteCharacters = atob(data);
+    const byteCharacters = Buffer.from(data, 'base64').toString('utf8');
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -110,7 +110,7 @@ export default class JhiDataUtils extends Vue {
    * Method to download file
    */
   downloadFile(contentType, data, fileName) {
-    const byteCharacters = atob(data);
+    const byteCharacters = Buffer.from(data, 'base64').toString('utf8');
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);

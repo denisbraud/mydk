@@ -2,9 +2,9 @@
 
 L'application **MyDiscotek** permet de gérer des favoris album en s'appuyant sur la Spotify API.
 
-| Page d'accueil | Ajout Favori |
+| Page d'accueil | |
 | --- | --- |
-| ![img](src/site/resources/images/home.png) | ![img](src/site/resources/images/entities/favorite-album-update.png) |
+| ![img](src/site/resources/images/home.png) | ![img](src/site/resources/images/1200.png) |
 
 > La version "production" de cette documentation est disponible via l'URL : http://todo/doc/000-intro.html
 

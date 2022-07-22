@@ -18,11 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class FavoriteAlbumService {
-
     private final Logger log = LoggerFactory.getLogger(FavoriteAlbumService.class);
-
     private final FavoriteAlbumRepository favoriteAlbumRepository;
-
     private final FavoriteAlbumMapper favoriteAlbumMapper;
 
     public FavoriteAlbumService(FavoriteAlbumRepository favoriteAlbumRepository, FavoriteAlbumMapper favoriteAlbumMapper) {
@@ -50,10 +47,7 @@ public class FavoriteAlbumService {
      * @return the persisted entity.
      */
     public FavoriteAlbumDTO update(FavoriteAlbumDTO favoriteAlbumDTO) {
-        log.debug("Request to save FavoriteAlbum : {}", favoriteAlbumDTO);
-        FavoriteAlbum favoriteAlbum = favoriteAlbumMapper.toEntity(favoriteAlbumDTO);
-        favoriteAlbum = favoriteAlbumRepository.save(favoriteAlbum);
-        return favoriteAlbumMapper.toDto(favoriteAlbum);
+        return save(favoriteAlbumDTO);
     }
 
     /**
@@ -65,15 +59,11 @@ public class FavoriteAlbumService {
     public Optional<FavoriteAlbumDTO> partialUpdate(FavoriteAlbumDTO favoriteAlbumDTO) {
         log.debug("Request to partially update FavoriteAlbum : {}", favoriteAlbumDTO);
 
-        return favoriteAlbumRepository
-            .findById(favoriteAlbumDTO.getId())
-            .map(existingFavoriteAlbum -> {
-                favoriteAlbumMapper.partialUpdate(existingFavoriteAlbum, favoriteAlbumDTO);
+        return favoriteAlbumRepository.findById(favoriteAlbumDTO.getId()).map(existingFavoriteAlbum -> {
+            favoriteAlbumMapper.partialUpdate(existingFavoriteAlbum, favoriteAlbumDTO);
 
-                return existingFavoriteAlbum;
-            })
-            .map(favoriteAlbumRepository::save)
-            .map(favoriteAlbumMapper::toDto);
+            return existingFavoriteAlbum;
+        }).map(favoriteAlbumRepository::save).map(favoriteAlbumMapper::toDto);
     }
 
     /**

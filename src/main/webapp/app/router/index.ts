@@ -5,7 +5,7 @@ Component.registerHooks([
   'beforeRouteLeave',
   'beforeRouteUpdate', // for vue-router 2.2+
 ]);
-import Router, { RouteConfig } from 'vue-router';
+import Router from 'vue-router';
 
 const Home = () => import('@/core/home/home.vue');
 const Error = () => import('@/core/error/error.vue');

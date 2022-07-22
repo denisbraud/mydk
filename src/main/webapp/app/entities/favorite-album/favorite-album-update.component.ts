@@ -45,7 +45,6 @@ export default class FavoriteAlbumUpdate extends Vue {
       }
     });
   }
-
   created(): void {
     this.currentLanguage = this.$store.getters.currentLanguage;
     this.$store.watch(
@@ -55,7 +54,6 @@ export default class FavoriteAlbumUpdate extends Vue {
       }
     );
   }
-
   public save(): void {
     this.isSaving = true;
     if (this.favoriteAlbum.id) {
@@ -98,7 +96,6 @@ export default class FavoriteAlbumUpdate extends Vue {
         });
     }
   }
-
   public retrieveFavoriteAlbum(favoriteAlbumId): void {
     this.favoriteAlbumService()
       .find(favoriteAlbumId)
@@ -109,10 +106,7 @@ export default class FavoriteAlbumUpdate extends Vue {
         this.alertService().showHttpError(this, error.response);
       });
   }
-
   public previousState(): void {
     this.$router.go(-1);
   }
-
-  public initRelationships(): void {}
 }

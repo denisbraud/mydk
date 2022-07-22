@@ -2,12 +2,14 @@ package io.mydk.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * A DTO for the {@link io.mydk.domain.FavoriteAlbum} entity.
  */
 public class FavoriteAlbumDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
 
