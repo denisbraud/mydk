@@ -4,6 +4,7 @@ import io.mydk.domain.FavoriteAlbum;
 import io.mydk.repository.FavoriteAlbumRepository;
 import io.mydk.security.SecurityUtils;
 import io.mydk.service.dto.AlbumDTO;
+import io.mydk.service.dto.ArtistDTO;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
@@ -80,10 +81,34 @@ public class SpotifyService {
         return (String) result.get("access_token");
     }
 
+    public List<ArtistDTO> searchArtist(String artistName, boolean exactMatch) {
+        String q = getSearchQuery(artistName, null);
+        Map<String, Object> result = getApiResult("search?type=artist&offset=0&limit=50&q=" + q);
+        Map<String, Object> albums = getAttributes(result, "artists");
+        List<Map<String, Object>> itemsArtists = getArray(albums, ITEMS);
+        List<ArtistDTO> dtos = new ArrayList<>();
+        for (Map<String, Object> artist : itemsArtists) {
+            ArtistDTO dto = mapToArtist(artist);
+            if (dto != null) {
+                dtos.add(dto);
+            }
+        }
+        if (exactMatch) {
+            dtos = exactMatch(dtos, artistName);
+        }
+        return dtos;
+    }
+
     public List<AlbumDTO> searchAlbum(String artistName, String albumName, boolean mainAlbumOnly, boolean exactMatch) {
         String q = getSearchQuery(artistName, albumName);
         if (q.isEmpty() && favoriteAlbumRepository != null) {
             return getCurrentUserFavoriteAlbums();
+        }
+        if (StringUtils.isBlank(albumName)) {
+            List<ArtistDTO> artists = searchArtist(artistName, exactMatch);
+            if (artists.size() == 1) {
+                return getArtistAlbums(artists.get(0), mainAlbumOnly);
+            }
         }
         Map<String, Object> result = getApiResult("search?type=album&offset=0&limit=50&q=" + q);
         Map<String, Object> albums = getAttributes(result, "albums");
@@ -92,6 +117,15 @@ public class SpotifyService {
         if (exactMatch) {
             dtos = exactMatch(dtos, artistName, albumName);
         }
+        addFavoriteInfos(dtos);
+        Collections.sort(dtos);
+        return dtos;
+    }
+
+    public List<AlbumDTO> getArtistAlbums(ArtistDTO artist, boolean mainAlbumOnly) {
+        Map<String, Object> result = getApiResult("artists/" + artist.getSpotifyId() + "/albums?offset=0&limit=50&include_groups=album" + (mainAlbumOnly ? "" : ",compilation"));
+        List<Map<String, Object>> itemsAlbums = getArray(result, ITEMS);
+        List<AlbumDTO> dtos = mapToAlbums(itemsAlbums, mainAlbumOnly);
         addFavoriteInfos(dtos);
         Collections.sort(dtos);
         return dtos;
@@ -157,6 +191,25 @@ public class SpotifyService {
             && !nameLw.contains("b-sides") && !nameLw.contains("b sides") //
             && !nameLw.contains(" remix") //
             && !nameLw.contains(" selected songs") && !nameLw.contains("best of");
+    }
+
+    private static List<ArtistDTO> exactMatch(List<ArtistDTO> dtos, String artistName) {
+        boolean foundExactMatchOnArtist = false;
+        for (ArtistDTO dto : dtos) {
+            if (dto.getName().equalsIgnoreCase(artistName)) {
+                foundExactMatchOnArtist = true;
+            }
+        }
+        if (!foundExactMatchOnArtist) {
+            return dtos;
+        }
+        List<ArtistDTO> newDtos = new ArrayList<>();
+        for (ArtistDTO dto : dtos) {
+            if (dto.getName().equalsIgnoreCase(artistName)) {
+                newDtos.add(dto);
+            }
+        }
+        return newDtos;
     }
 
     private static List<AlbumDTO> exactMatch(List<AlbumDTO> dtos, String artistName, String albumName) {
@@ -241,6 +294,17 @@ public class SpotifyService {
             return Collections.emptyMap();
         }
         return (Map<String, Object>) attrs;
+    }
+
+    private static ArtistDTO mapToArtist(Map<String, Object> artist) {
+        Integer popularity = (Integer) artist.get("popularity");
+        if (popularity != null && popularity < 5) {
+            return null;
+        }
+        ArtistDTO dto = new ArtistDTO();
+        dto.setSpotifyId((String) artist.get("id"));
+        dto.setName((String) artist.get("name"));
+        return dto;
     }
 
     private static List<AlbumDTO> mapToAlbums(List<Map<String, Object>> itemsAlbums, boolean mainAlbumOnly) {

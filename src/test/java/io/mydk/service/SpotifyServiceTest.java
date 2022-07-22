@@ -3,6 +3,7 @@ package io.mydk.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.mydk.service.dto.AlbumDTO;
+import io.mydk.service.dto.ArtistDTO;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,16 @@ class SpotifyServiceTest {
     private static SpotifyService spotifyService = new SpotifyService(restTemplate, null);
 
     @Test
+    void searchArtist() {
+        List<ArtistDTO> dtos = spotifyService.searchArtist("eiffel", true);
+        assertEquals("[Eiffel]", dtos.toString());
+    }
+
+    @Test
     void searchAlbum() {
         List<AlbumDTO> dtos = spotifyService.searchAlbum("u2", "", true, true);
         assertEquals("["//
-            + "U2 Boy (Remastered) 1980, "//
+            + "U2 Boy 1980, "//
             + "U2 October 1981, "//
             + "U2 War 1983, "//
             + "U2 The Unforgettable Fire 1984, "//
@@ -36,13 +43,20 @@ class SpotifyServiceTest {
         dtos = spotifyService.searchAlbum("dEUS", "", true, true);
         assertEquals("["//
             + "dEUS Worst Case Scenario 1994, "//
+            + "dEUS In A Bar, Under The Sea 1996, "//
             + "dEUS The Ideal Crash 1999, "//
+            + "dEUS No More Loud Music - The Singles 2001, "//
             + "dEUS Pocket Revolution 2005, "//
             + "dEUS Vantage Point 2008, "//
-            + "dEUS Following Sea 2012]", dtos.toString());
+            + "dEUS Keep You Close 2011, "//
+            + "dEUS Following Sea 2012, "//
+            + "dEUS Selected Songs 1994 - 2014 2014]", dtos.toString());
 
         dtos = spotifyService.searchAlbum("eiffel", "", true, true);
         assertEquals("["//
+            + "Eiffel Abricotine 2001, "//
+            + "Eiffel Le 1 / 4 d'heure des ahuris 2002, "//
+            + "Eiffel Les yeux fermes (Live) 2004, "//
             + "Eiffel Tandoori 2006, "//
             + "Eiffel A tout moment 2009, "//
             + "Eiffel Foule monstre 2012, "//
@@ -51,6 +65,7 @@ class SpotifyServiceTest {
         dtos = spotifyService.searchAlbum("pixies", "", true, true);
         assertEquals("["//
             + "Pixies Come On Pilgrim 1987, "//
+            + "Pixies Demos 1987, "//
             + "Pixies Surfer Rosa 1988, "//
             + "Pixies Doolittle 1989, "//
             + "Pixies Bossanova 1990, "//
