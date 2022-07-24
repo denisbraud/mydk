@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.7.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd"
+  name="${project.name}">
+  <bannerLeft><src>images/app.png</src><href>./000-intro.html</href></bannerLeft>
+  <bannerRight><src>images/organization.png</src><href>${project.organization.url}</href></bannerRight>
+  <publishDate position="right" format="yyyy-MM-dd HH:mm"/>
+  <version position="right"/>
+  <body>
+    <head><![CDATA[
+      <link rel="shortcut icon" href="images/favicon.png" type="image/png">
+      <link rel="icon" href="images/favicon.png" type="image/png">
+
+      <script type="text/javascript" src="js/jquery-1.11.1.min.js"> </script>
+      <script type="text/javascript" src="js/jquery-ui-1.9.1.custom.min.js"> </script>
+      <script type="text/javascript" src="js/jquery.tocify.js"> </script>
+      <script type="text/javascript" src="js/custom.tocify.js"> </script>
+      <script type="text/javascript" src="js/custom.js"> </script>
+    ]]></head>
+    <breadcrumbs>
+      <item name="[^]" href="./000-intro.html"/>
+    </breadcrumbs>
+    <menu name="${project.name}">
+      <item name="Présentation" href="000-intro.html"/>
+      <item name="Accès à l’application" href="010-access.html"/>
+      <item name="Application" href="020-entities.html"/>
+      <item name="Questions Fréquentes" href="030-faq.html"/>
+      <item name="Administration" href="040-admin.html"/>
+      <item name="Modèle" href="070-model.html"/>
+      <item name="Terminologie" href="080-terminologie.html"/>
+      <item name="Intervenants" href="090-intervenants.html"/>
+    </menu>
+    <menu name="Production">
+      <item name="Installation" href="100-prod-install.html"/>
+      <item name="Administration" href="110-prod-admin.html"/>
+      <item name="Homologation" href="120-homologation.html"/>
+    </menu>
+    <menu name="Autres">
+      <item name="Documentation complète" collapse="true" href="${project.name}.html">
+        <item name="Notice utilisateur" href="${project.name}_NU_USER.html"/>
+        <item name="Notice administrateur" href="${project.name}_NU_ADMIN.html"/>
+        <item name="DMEP" href="${project.name}_DMEP.html"/>
+      </item>
+      <item name="Gestion de Projet" collapse="true" href="200-projet.html">
+        <item name="Changelog" href="210-CHANGELOG.html"/>
+        <item name="Tests" href="220-test.html"/>
+        <item name="Backlog" href="230-BACKLOG.html"/>
+        <item name="Gestion Documentaire" href="290-doc.html"/>
+      </item>
+      <item name="Développement" collapse="true" href="300-dev.html">
+        <item name="jHipster" href="310-jhipster.html"/>
+        <item name="Git Flow" href="390-gitflow.html"/>
+      </item>
+    </menu>
+    <menu name="Rapports Maven" ref="reports"/>
+  </body>
+</project>

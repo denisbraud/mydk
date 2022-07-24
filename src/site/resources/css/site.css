@@ -1,0 +1,85 @@
+#banner {height:40px;background: #fff;border:none;}
+
+img {max-width:100%;}
+
+a {color: #777 !important;}
+a:hover {text-decoration: underline;}
+
+h1, b, b a {color: #0088cc !important;}
+b>i, i>b {color: #0088cc !important;font-style:normal;}
+h2, h3, h5, h6 {color: #0088cc;}
+h2, h3 {border-color:#ddd; background: #ebebeb;}
+h4 {color: #fff; border-color:#ddd; background: #666;}
+h5 {font-size:15px;margin:0 0 5px 0;padding:0;border-bottom: 1px solid #ccc !important;}
+h6 {font-size:13px;margin:0;padding:0;}
+
+/* https://www.w3.org/Style/Examples/007/color-bullets.fr.html */
+#bodyColumn ul {list-style: none; padding: 0 0 0 20px;}
+#bodyColumn ul li {margin:0; padding: 0;}
+#bodyColumn ul li::before {content: "•"; color: #0088cc;  display: inline-block; width: 1em;  margin-left: -1em}
+
+#bodyColumn ol {list-style: none; list-style-type: none !important; counter-reset: li; padding: 0 0 0 20px;}
+#bodyColumn ol li {counter-increment: li; margin:0; padding: 0;}
+#bodyColumn ol li::before {content: counter(li); color: #0088cc; display: inline-block; width: 1em; margin-left: -1.5em; margin-right: 0.5em; text-align: right; direction: rtl}
+#bodyColumn ol li::before {font-weight: bold; }
+
+hr {height: 1px;border: 0;background-color: #0088cc; margin:0} 
+
+blockquote {
+    color: #333;
+    padding: 1px 10px;
+    margin: 0 0;
+    background-color: #f6f6f6;
+    border-left: 4px solid #0088cc;
+    border-right: 1px solid #0088cc;
+}
+
+.source pre { padding: 5px 0 5px 10px; }
+.source { padding: 0;  margin: 5px 0; border-color: #f6f6f6; background-color: #f6f6f6;}
+
+code {
+    padding: 1px 4px;
+    font-size: 90%;
+    color: #222;
+    background-color: #ebebeb;
+    border-radius: 3px;
+}
+
+figure {margin:0; padding:0; }
+
+table.bodyTable {border-collapse: collapse;border-width:0;}
+table.bodyTable td, table.bodyTable th {border-width:0;}
+table.bodyTable th {background-color: #fff; color:#333;}
+table.bodyTable thead tr {border-bottom:1px solid #0088cc; }
+table.bodyTable tbody tr {border-bottom:1px solid #ccc; }
+table.bodyTable tbody tr.a {background-color: #fff;}
+table.bodyTable tbody tr.b {background-color: #f6f6f6;}
+
+/* tocify : http://gregfranko.com/jquery.tocify.js/ */
+/* [DOC_STYLE_Tocify] */
+#bannerLeft img {position:fixed;top:0;right:0;bottom:0;left:0; background: #fff}
+#breadcrumbs {padding-left:5px}
+#breadcrumbs .xleft {position:fixed;}
+#bodyColumn {margin:-8px 5px 0 265px;}
+#leftColumn {position:fixed;left:0;width:250px; background-color:#ebebeb;border:1px solid #ddd;}
+#toc {position:fixed;width:250px;margin:10px 0 0 0;padding:0;}
+#toc b {font-size:10px}
+#toc li.active {background-color:#ebebeb;color:black;border:1px solid #ddd;}
+#toc li.active a {background-color:#ebebeb;color:black !important;}
+#toc a {color: #36a;}
+.tocify ul, .tocify li {list-style: none;margin:0; padding:0;border: none;font-size:10px;line-height: 1.5em;}
+.tocify-header {text-indent:0;}
+.tocify-subheader {text-indent: 10px;display: none;}
+.tocify-subheader li {font-size: 9px;}
+.tocify-subheader .tocify-subheader {text-indent: 15px;}
+.tocify-subheader .tocify-subheader .tocify-subheader {text-indent: 20px;}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {text-indent: 25px;}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {text-indent: 30px;}
+
+/* Various improvements ----------------------------------------------------- */
+
+/* L'image "Build by Maven" alourdi le menu
+   alors que le style du site indique déjà que le site a été créé via Maven. */
+#navcolumn {padding: 8px 4px 8px 8px;}
+#navcolumn h5 {font-weight:normal;}
+a.poweredBy{display:none;}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="mydk" basedir=".">
+  <target name="move-screenshots">
+    <move tofile="src/site/resources/images/home.png" file="target/cypress/screenshots/administration/administration.spec.ts/home.png" overwrite="true" failonerror="false"/>
+    <move tofile="src/site/resources/images/admin/user-management.png" file="target/cypress/screenshots/administration/administration.spec.ts/user-management.png" overwrite="true" failonerror="false"/>
+    <move tofile="src/site/resources/images/admin/metrics.png" file="target/cypress/screenshots/administration/administration.spec.ts/metrics.png" overwrite="true" failonerror="false"/>
+    <move tofile="src/site/resources/images/admin/health.png" file="target/cypress/screenshots/administration/administration.spec.ts/health.png" overwrite="true" failonerror="false"/>
+    <move tofile="src/site/resources/images/admin/configuration.png" file="target/cypress/screenshots/administration/administration.spec.ts/configuration.png" overwrite="true" failonerror="false"/>
+  </target>
+</project>

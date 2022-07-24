@@ -7,10 +7,17 @@
 
     <groupId>io.mydk</groupId>
     <artifactId>mydk</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Mydk</name>
-    <description>Description for mydk</description>
+    <name>MyDiscotek</name>
+    <description></description>
+    <inceptionYear>2022</inceptionYear> <!--  20/07/2022 -->
+    <url>https://appprod.todo</url>
+
+    <organization>
+        <name>VeoNum</name>
+        <url>https://www.veonum.com/</url>
+    </organization>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
@@ -22,7 +29,23 @@
 
     <!-- jhipster-needle-distribution-management -->
 
+    <ciManagement>
+        <system>Gitlab-CI</system>
+        <url>${project.scm.url}/pipelines</url>
+    </ciManagement>
+    <issueManagement>
+        <system>GitLab</system>
+        <url>${project.scm.url}/issues/</url>
+    </issueManagement>
+    <scm>
+        <url>https://github.com/denisbraud/mydk</url>
+    </scm>
+
     <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
+        <milestone_id>1</milestone_id>
+        <milestone_title>1.0.0</milestone_title>
+
         <!-- Build properties -->
         <maven.version>3.8.5</maven.version>
         <java.version>11</java.version>
@@ -31,7 +54,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <start-class>io.mydk.MydkApp</start-class>
@@ -89,6 +112,26 @@
         <properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <!-- jhipster-needle-maven-property -->
+
+        <report.plugin.version>3.2.2</report.plugin.version>
+
+        <!-- Profile config -->
+        <rapidBuild>false</rapidBuild>
+        <skipReportsDev>false</skipReportsDev>
+        <mailingListMoa>todo@todo.com</mailingListMoa>
+
+        <docEntete>
+---
+
+> - ***Projet :*** **${project.name}**
+> - ***URL :*** ${project.url}
+> - ***Contact :*** ${mailingListMoa}
+> - ***Version :*** ${project.version}
+> - ***du :*** ${maven.build.timestamp}
+
+---
+        </docEntete>
+
     </properties>
 
     <dependencyManagement>
@@ -378,6 +421,87 @@
                 <artifactId>modernizer-maven-plugin</artifactId>
             </plugin>
             <!-- jhipster-needle-maven-add-plugin -->
+
+<!-- https://maven.apache.org/plugins/maven-site-plugin/ .................... -->
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <configuration>
+                    <locales>fr</locales>
+                </configuration>
+            </plugin>
+
+<!-- https://maven.apache.org/plugins/maven-antrun-plugin/ .................. -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre-site-resources</id> <phase>pre-site</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration><target>
+                            <delete><fileset dir="src/site/markdown/"><include name="${project.name}*.md"/></fileset></delete>
+                            <concat destfile="src/site/markdown/${project.name}.md" fixlastline="yes" encoding="UTF-8">
+                                <header>H1 Documentation complète
+${docEntete}</header>
+                                <fileset dir="src/site/markdown/" includes="*.md" excludes="${project.name}.md"/>
+                            </concat>
+                            <concat destfile="src/site/markdown/${project.name}_NU_USER.md" fixlastline="yes" encoding="UTF-8">
+                                <header>H1 Notice utilisateur
+${docEntete}</header>
+                                <fileset dir="src/site/markdown/" includes="000-intro.md 020-entities.md 030-faq.md 090-terminologie.md"/>
+                            </concat>
+                            <concat destfile="src/site/markdown/${project.name}_NU_ADMIN.md" fixlastline="yes" encoding="UTF-8">
+                                <header>H1 Notice administrateur
+${docEntete}</header>
+                                <fileset dir="src/site/markdown/" includes="000-intro.md 010-access.md 020-entities.md 030-faq.md 040-admin.md 090-terminologie.md"/>
+                            </concat>
+                            <concat destfile="src/site/markdown/${project.name}_DMEP.md" fixlastline="yes" encoding="UTF-8">
+                                <header>H1 DMEP (Dossier de Mise En Prod)
+${docEntete}</header>
+                                <fileset dir="src/site/markdown/" includes="000-intro.md 100-prod-install.md"/>
+                            </concat>
+
+                            <replaceregexp match ="\n ---\n(.*?)\n  ---\n" replace =" " flags="gs" byline="false"><fileset dir="src/site/markdown/"><include name="${project.name}_*.md"/></fileset></replaceregexp>
+                            <replaceregexp match="^#" replace="##" byline="true"><fileset dir="src/site/markdown/"><include name="${project.name}*.md"/></fileset></replaceregexp>
+                            <replaceregexp match="^H1 " replace="# " byline="true"><fileset dir="src/site/markdown/"><include name="${project.name}*.md"/></fileset></replaceregexp>
+                        </target></configuration>
+                    </execution>
+                    <execution>
+                        <id>post-site-resources</id> <phase>post-site</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration><target>
+                            <replaceregexp match='href="([a-zA-Z0-9_-]*).md"'
+                                replace='href="\1.html"' byline="true" flags="g"><fileset dir="target"><include name="site/*.html"/></fileset></replaceregexp>
+                            <replace dir="target" token="../resources/model/" value="model/"><include name="site/*.html"/></replace>
+                            <replace dir="target" token="../resources/images/" value="images/"><include name="site/*.html"/></replace>
+                            <replace dir="target" token="../resources/files/" value="files/"><include name="site/*.html"/></replace>
+
+                            <!--  gitlab-specific-references -->
+                            <replace dir="target" token="a>%" value="a>"><include name="site/*.html"/></replace>
+                            <replaceregexp match='&lt;h1>(\d*) (.*)&lt;\/h1>'
+                                replace='&lt;a href="${project.issueManagement.url}\1">#\1&lt;/a> \2' byline="true" flags="g"><fileset dir="target"><include name="site/*.html"/></fileset></replaceregexp>
+                            <replaceregexp match='~(\w*)' byline="true" flags="g"
+                                replace='&lt;a href="${project.scm.url}/issues?label_name[]=\1">&lt;code>\1&lt;/code>&lt;/a>'><fileset dir="target"><include name="site/*.html"/></fileset></replaceregexp>
+                            <replace token=":x:" value='&lt;img src="images/icon_error_sml.gif"/>'><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token=":white_check_mark:" value='&lt;img src="images/icon_success_sml.gif"/>'><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token=">%@milestone_id@" value='>&lt;a href="${project.scm.url}/milestones/${milestone_id}">${milestone_title}&lt;/a>'><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token="%@milestone_id@" value="${project.scm.url}/milestones/${milestone_id}"><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token="@milestone_id@" value="${milestone_id}"><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token="@milestone_title@" value="${milestone_title}"><fileset dir="target" includes="site/*.html"/></replace>
+                            <!-- Only for html site (ko on markdown) -->
+                            <replace token="@revision@" value="${revision}"><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token="@project.artefactId@" value="${project.artefactId}"><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token="@project.url@" value="${project.url}"><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token="@project.name@" value="${project.name}"><fileset dir="target" includes="site/*.html"/></replace>
+                            <replace token="@scm.url@" value="${project.scm.url}"><fileset dir="target" includes="site/*.html"/></replace>
+
+                            <delete><fileset dir="src/site/markdown/"><include name="${project.name}*.md"/></fileset></delete>
+
+                            <move overwrite="true" failonerror="false" todir="target/site/test-results"><fileset dir="target/test-results" includes="**"/></move> <!-- to have test-results\lcov-report in doc -->
+                            <copy overwrite="true" failonerror="false" todir="target/classes/static/doc"><fileset dir="target/site" includes="**"/></copy> <!-- to have doc in jar -->
+                        </target></configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -798,9 +922,81 @@
 
                 </plugin>
                 <!-- jhipster-needle-maven-add-plugin-management -->
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${maven-antrun-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${report.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <reporting>
+        <plugins>
+<!-- https://maven.apache.org/plugins/maven-project-info-reports-plugin/
+   https://maven.apache.org/plugins/maven-site-plugin/examples/configuring-reports.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report> <!--Project index page.-->
+                            <report>summary</report> <!--Project Summary report.-->
+                            <report>dependencies</report> <!--Project Dependencies report.-->
+
+                            <report>dependency-convergence</report> <!--the Project Dependency Convergence report for (reactor) builds.-->
+                            <!--report>dependency-info</report--> <!--code snippets to be added to build tools.-->
+                            <!--report>dependency-management</report--> <!--the Project Dependency Management report.-->
+                            <!--report>plugin-management</report--> <!--the Project Plugin Management report.-->
+                            <report>plugins</report> <!--Project Plugins report.-->
+                            <report>distribution-management</report> <!--the Project Distribution Management report.-->
+                            <report>issue-management</report> <!--the Project Issue Management report.-->
+                            <report>ci-management</report> <!--Project Continuous Integration Management report.-->
+                            <report>mailing-lists</report> <!--the Project Mailing List report.-->
+                            <report>team</report> <!--the Project Team report.-->
+                            <report>scm</report> <!--Project Source Code Management report.-->
+                            <!--report>licenses</report--> <!--Project Licenses report.-->
+                            <!--report>modules</report--> <!--Project Modules report = index report.-->
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <skip>${rapidBuild}</skip>
+                </configuration>
+            </plugin>
+<!-- https://maven.apache.org/plugins/maven-surefire-report-plugin/ ......... -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report-only</report> <!-- *-only : avoid repeating test phase -->
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <skipSurefireReport>${rapidBuild}</skipSurefireReport>
+                    <reportsDirectories>
+                        <reportsDirectorie>${project.build.directory}/surefire-reports</reportsDirectorie>
+                        <reportsDirectorie>${project.build.directory}/failsafe-reports</reportsDirectorie>
+                        <reportsDirectorie>${project.build.directory}/test-results</reportsDirectorie>
+                    </reportsDirectories>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
     <profiles>
         <profile>
             <id>no-liquibase</id>
@@ -884,7 +1080,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>${maven-antrun-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>eval-frontend-checksum</id>
@@ -1263,5 +1458,17 @@
             </build>
         </profile>
         <!-- jhipster-needle-maven-add-profile -->
+
+        <!-- doc profile ...................................................
+         Génération rapide de la doc : mvn -Pdoc,local clean post-site
+         Génération complète : mvn clean install post-site -Pbuild-all,local -->
+        <profile>
+            <id>doc</id>
+            <properties>
+                <skipTests>true</skipTests>
+                <rapidBuild>true</rapidBuild>
+                <skipReportsDev>true</skipReportsDev>
+            </properties>
+        </profile>
     </profiles>
 </project>
