@@ -6,5 +6,8 @@
     <move tofile="src/site/resources/images/admin/metrics.png" file="target/cypress/screenshots/administration/administration.spec.ts/metrics.png" overwrite="true" failonerror="false"/>
     <move tofile="src/site/resources/images/admin/health.png" file="target/cypress/screenshots/administration/administration.spec.ts/health.png" overwrite="true" failonerror="false"/>
     <move tofile="src/site/resources/images/admin/configuration.png" file="target/cypress/screenshots/administration/administration.spec.ts/configuration.png" overwrite="true" failonerror="false"/>
+
+    <move tofile="src/site/resources/images/entities/favorite-album.png" file="target/cypress/screenshots/entity/favorite-album.spec.ts/favorite-album.png" overwrite="true" failonerror="false"/>
+    <move tofile="src/site/resources/images/entities/favorite-album-update.png" file="target/cypress/screenshots/entity/favorite-album.spec.ts/favorite-album-update.png" overwrite="true" failonerror="false"/>
   </target>
 </project>

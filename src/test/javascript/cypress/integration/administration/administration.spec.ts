@@ -19,8 +19,10 @@ describe('/admin', () => {
 
   describe('/user-management', () => {
     it('should load the page', () => {
+      cy.screenshot('home');
       cy.clickOnAdminMenuItem('user-management');
       cy.get(userManagementPageHeadingSelector).should('be.visible');
+      cy.screenshot('user-management');
     });
   });
 
@@ -28,6 +30,7 @@ describe('/admin', () => {
     it('should load the page', () => {
       cy.clickOnAdminMenuItem('metrics');
       cy.get(metricsPageHeadingSelector).should('be.visible');
+      cy.screenshot('metrics');
     });
   });
 
@@ -35,6 +38,7 @@ describe('/admin', () => {
     it('should load the page', () => {
       cy.clickOnAdminMenuItem('health');
       cy.get(healthPageHeadingSelector).should('be.visible');
+      cy.screenshot('health');
     });
   });
 
@@ -42,6 +46,7 @@ describe('/admin', () => {
     it('should load the page', () => {
       cy.clickOnAdminMenuItem('logs');
       cy.get(logsPageHeadingSelector).should('be.visible');
+      //cy.screenshot('logs'); ko avec infinity span
     });
   });
 
@@ -49,6 +54,7 @@ describe('/admin', () => {
     it('should load the page', () => {
       cy.clickOnAdminMenuItem('configuration');
       cy.get(configurationPageHeadingSelector).should('be.visible');
+      cy.screenshot('configuration');
     });
   });
 
@@ -63,6 +69,7 @@ describe('/admin', () => {
               // Wait iframe to load
               cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
               cy.get(swaggerFrameSelector).its('0.contentDocument.body').find(swaggerPageSelector).should('be.visible');
+              //cy.screenshot('docs'); ko : see https://github.com/cypress-io/cypress/issues/15619
             });
         }
       });
