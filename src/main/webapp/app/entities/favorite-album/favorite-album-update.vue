@@ -17,12 +17,9 @@
       </div>
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
         <div>
-          <strong
-            id="mydkApp.favoriteAlbum.home.createOrEditLabel"
-            data-cy="FavoriteAlbumCreateUpdateHeading"
-          >
-            <font-awesome-icon icon="compact-disc"></font-awesome-icon> My Discotek
-          </strong><br /><br />
+          <strong id="mydkApp.favoriteAlbum.home.createOrEditLabel" data-cy="FavoriteAlbumCreateUpdateHeading">
+            <font-awesome-icon icon="compact-disc"></font-awesome-icon> My Discotek </strong
+          ><br /><br />
           <div class="form-group" v-if="favoriteAlbum.id && 1 == 2">
             <label for="id" v-text="$t('global.field.id')">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="favoriteAlbum.id" readonly />

@@ -17,7 +17,11 @@ export default class Home extends Vue {
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.loadFavorite();
+      setTimeout(() => {
+        if (vm.$store.getters.authenticated) {
+          vm.loadFavorite();
+        }
+      }, 400);
     });
   }
   public openLogin(): void {
