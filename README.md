@@ -1,12 +1,15 @@
 # MyDiscotek
 
-L'application **MyDiscotek** permet de gérer des favoris album en s'appuyant sur la Spotify API.
+L'application **MyDiscotek** permet de gérer des favoris album.
+
+- URL Prod : [@project.url@](@project.url@)
+- URL Local : http://localhost:9000 - cf. [Installation du poste de développement et Quick Start](src/site/markdown/300-dev.md)
 
 | Page d'accueil | Ajout Favori |
 | --- | --- |
 | ![img](src/site/resources/images/home.png) | ![img](src/site/resources/images/entities/favorite-album-update.png) |
 
-> La version "production" de cette documentation est disponible via l'URL : http://todo/doc/000-intro.html
+> La version "production" de cette documentation est disponible via l'URL : [@project.url@/doc/000-intro.html](@project.url@/doc/000-intro.html)
 
 ## MyDiscotek
 
