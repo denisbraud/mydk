@@ -24,7 +24,7 @@
           </div>
         </div>
       </form>
-      <div class="row mt-3" v-if="albums">
+      <div class="row mt-3" v-if="albums" data-cy="homePageLoadedIndicator">
         <div class="col-md-6 col-lg-3 col-xl-2 mb-1" v-for="album in albums" :key="album.spotifyId">
           <a :href="'https://open.spotify.com/album/' + album.spotifyId" target="_blank" class="imghover">
             <img :src="album.imageUrl" alt="x" class="img-fluid border" />

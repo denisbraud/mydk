@@ -19,9 +19,12 @@ describe('/admin', () => {
 
   describe('/user-management', () => {
     it('should load the page', () => {
+      cy.get('[data-cy="homePageLoadedIndicator"]').should('be.visible');
+      cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
       cy.screenshot('home');
       cy.clickOnAdminMenuItem('user-management');
       cy.get(userManagementPageHeadingSelector).should('be.visible');
+      cy.get('[data-cy="userManagementPageLoadedIndicator"]').should('be.visible');
       cy.screenshot('user-management');
     });
   });
@@ -30,6 +33,7 @@ describe('/admin', () => {
     it('should load the page', () => {
       cy.clickOnAdminMenuItem('metrics');
       cy.get(metricsPageHeadingSelector).should('be.visible');
+      cy.get('[data-cy="metricsPageLoadedIndicator"]').should('be.visible');
       cy.screenshot('metrics');
     });
   });

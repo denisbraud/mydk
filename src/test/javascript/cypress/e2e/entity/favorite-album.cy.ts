@@ -49,6 +49,7 @@ describe('FavoriteAlbum e2e test', () => {
       } else {
         cy.get(entityTableSelector).should('exist');
       }
+      cy.get('[data-cy="favoriteAlbumsPageLoadedIndicator"]').should('be.visible');
       cy.screenshot('favorite-album');
     });
     cy.getEntityHeading('FavoriteAlbum').should('exist');
@@ -129,6 +130,10 @@ describe('FavoriteAlbum e2e test', () => {
       it('edit button click should load edit FavoriteAlbum page and save', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('FavoriteAlbum');
+
+        cy.get('[data-cy="favoriteAlbumUpdatePageLoadedIndicator"]').should('be.visible');
+        cy.screenshot('favorite-album-update');
+
         cy.get(entityCreateSaveButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode ?? -1).to.equal(200);
@@ -161,17 +166,13 @@ describe('FavoriteAlbum e2e test', () => {
     });
 
     it('should create an instance of FavoriteAlbum', () => {
-      cy.get(`[data-cy="login"]`).type('admin');
-      //.should('have.value', 'admin'); commented because field became invisible
+      cy.get(`[data-cy="login"]`).type('admin').should('have.value', 'admin');
 
-      cy.get(`[data-cy="albumSpotifyId"]`).type('1Td5bSMxDrTIDAvxJQIo5t');
-      //.should('have.value', '1Td5bSMxDrTIDAvxJQIo5t');  commented because field became invisible
+      cy.get(`[data-cy="albumSpotifyId"]`).type('1Td5bSMxDrTIDAvxJQIo5t').should('have.value', '1Td5bSMxDrTIDAvxJQIo5t');
 
       cy.get(`[data-cy="rank"]`).type('1').should('have.value', '1');
 
       cy.get(`[data-cy="comment"]`).type('Ceci est un commentaire').should('have.value', 'Ceci est un commentaire');
-
-      cy.screenshot('favorite-album-update');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

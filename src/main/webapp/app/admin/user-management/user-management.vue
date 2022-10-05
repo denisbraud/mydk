@@ -16,7 +16,7 @@
         </router-link>
       </div>
     </h2>
-    <div class="table-responsive" v-if="users">
+    <div class="table-responsive" v-if="users" data-cy="userManagementPageLoadedIndicator">
       <table class="table table-striped" aria-describedby="Users">
         <thead>
           <tr>

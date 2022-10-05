@@ -24,7 +24,7 @@
     <div class="alert alert-warning" v-if="!isFetching && favoriteAlbums && favoriteAlbums.length === 0">
       <span v-text="$t('mydkApp.favoriteAlbum.home.notFound')">No favoriteAlbums found</span>
     </div>
-    <div class="table-responsive" v-if="favoriteAlbums && favoriteAlbums.length > 0">
+    <div class="table-responsive" v-if="favoriteAlbums && favoriteAlbums.length > 0" data-cy="favoriteAlbumsPageLoadedIndicator">
       <table class="table table-striped" aria-describedby="favoriteAlbums">
         <thead>
           <tr>

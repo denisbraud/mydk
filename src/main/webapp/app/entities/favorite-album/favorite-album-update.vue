@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5 col-xl-4" v-if="favoriteAlbum.album">
+    <div class="col-md-6 col-lg-5 col-xl-4" v-if="favoriteAlbum.album" data-cy="favoriteAlbumUpdatePageLoadedIndicator">
       <a :href="'https://open.spotify.com/album/' + favoriteAlbum.album.spotifyId" target="_blank">
         <img :src="favoriteAlbum.album.imageUrl" alt="x" class="img-fluid border" />
       </a>
@@ -24,7 +24,7 @@
             <label for="id" v-text="$t('global.field.id')">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="favoriteAlbum.id" readonly />
           </div>
-          <div class="form-group" v-if="!favoriteAlbum.login">
+          <div class="form-group" v-if="!favoriteAlbum.album">
             <label class="form-control-label" v-text="$t('mydkApp.favoriteAlbum.login')" for="favorite-album-login">Login</label>
             <input
               type="text"
@@ -49,7 +49,7 @@
               </small>
             </div>
           </div>
-          <div class="form-group" v-if="!favoriteAlbum.albumSpotifyId">
+          <div class="form-group" v-if="!favoriteAlbum.album">
             <label class="form-control-label" v-text="$t('mydkApp.favoriteAlbum.albumSpotifyId')" for="favorite-album-albumSpotifyId"
               >Album Spotify Id</label
             >

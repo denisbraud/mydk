@@ -44,7 +44,9 @@ export default class FavoriteAlbumUpdate extends Vue {
       if (to.params.favoriteAlbumId) {
         vm.retrieveFavoriteAlbum(to.params.favoriteAlbumId);
       } else {
-        vm.favoriteAlbum.login = to.params.login;
+        if (to.params.login) {
+          vm.favoriteAlbum.login = to.params.login;
+        }
         if (to.params.album) {
           vm.favoriteAlbum.albumSpotifyId = to.params.album.spotifyId;
           vm.favoriteAlbum.album = to.params.album;

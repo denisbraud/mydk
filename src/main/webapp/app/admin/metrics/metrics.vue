@@ -8,7 +8,7 @@
     </h2>
 
     <h3 v-text="$t('metrics.jvm.title')">JVM Metrics</h3>
-    <div class="row" v-if="!updatingMetrics">
+    <div class="row" v-if="!updatingMetrics" data-cy="metricsPageLoadedIndicator">
       <div class="col-md-4">
         <h4 v-text="$t('metrics.jvm.memory.title')">Memory</h4>
         <div>
