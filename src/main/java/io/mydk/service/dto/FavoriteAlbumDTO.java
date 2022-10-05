@@ -7,6 +7,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO for the {@link io.mydk.domain.FavoriteAlbum} entity.
  */
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class FavoriteAlbumDTO implements Serializable {
 
     private Long id;

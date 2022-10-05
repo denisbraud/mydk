@@ -246,7 +246,7 @@ class FavoriteAlbumResourceIT {
 
     @Test
     @Transactional
-    void putNewFavoriteAlbum() throws Exception {
+    void putExistingFavoriteAlbum() throws Exception {
         // Initialize the database
         favoriteAlbumRepository.saveAndFlush(favoriteAlbum);
 

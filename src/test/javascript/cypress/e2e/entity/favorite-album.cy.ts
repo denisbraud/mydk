@@ -1,4 +1,3 @@
-import { entityItemSelector } from '../../support/commands';
 import {
   entityTableSelector,
   entityDetailsButtonSelector,
@@ -16,9 +15,9 @@ describe('FavoriteAlbum e2e test', () => {
   const favoriteAlbumPageUrlPattern = new RegExp('/favorite-album(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const favoriteAlbumSample = { login: 'Ball', albumSpotifyId: 'Awesome Grands', rank: 11031 };
+  const favoriteAlbumSample = { login: 'Forint online Implemented', albumSpotifyId: 'cross-platform', rank: 1920 };
 
-  let favoriteAlbum: any;
+  let favoriteAlbum;
 
   beforeEach(() => {
     cy.login(username, password);
@@ -45,7 +44,7 @@ describe('FavoriteAlbum e2e test', () => {
     cy.visit('/');
     cy.clickOnEntityMenuItem('favorite-album');
     cy.wait('@entitiesRequest').then(({ response }) => {
-      if (response!.body.length === 0) {
+      if (response.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
       } else {
         cy.get(entityTableSelector).should('exist');
@@ -69,7 +68,7 @@ describe('FavoriteAlbum e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response!.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', favoriteAlbumPageUrlPattern);
       });
@@ -110,18 +109,28 @@ describe('FavoriteAlbum e2e test', () => {
         cy.getEntityDetailsHeading('favoriteAlbum');
         cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response!.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', favoriteAlbumPageUrlPattern);
       });
 
-      it('edit button click should load edit FavoriteAlbum page', () => {
+      it('edit button click should load edit FavoriteAlbum page and go back', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('FavoriteAlbum');
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response!.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(200);
+        });
+        cy.url().should('match', favoriteAlbumPageUrlPattern);
+      });
+
+      it('edit button click should load edit FavoriteAlbum page and save', () => {
+        cy.get(entityEditButtonSelector).first().click();
+        cy.getEntityCreateUpdateHeading('FavoriteAlbum');
+        cy.get(entityCreateSaveButtonSelector).click();
+        cy.wait('@entitiesRequest').then(({ response }) => {
+          expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', favoriteAlbumPageUrlPattern);
       });
@@ -131,10 +140,10 @@ describe('FavoriteAlbum e2e test', () => {
         cy.getEntityDeleteDialogHeading('favoriteAlbum').should('exist');
         cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
-          expect(response!.statusCode).to.equal(204);
+          expect(response.statusCode).to.equal(204);
         });
         cy.wait('@entitiesRequest').then(({ response }) => {
-          expect(response!.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', favoriteAlbumPageUrlPattern);
 
@@ -151,22 +160,22 @@ describe('FavoriteAlbum e2e test', () => {
     });
 
     it('should create an instance of FavoriteAlbum', () => {
-      cy.get(`[data-cy="login"]`).type('Chips a').should('have.value', 'Chips a');
+      cy.get(`[data-cy="login"]`).type('Avon Krone').should('have.value', 'Avon Krone');
 
-      cy.get(`[data-cy="albumSpotifyId"]`).type('deposit user-facing').should('have.value', 'deposit user-facing');
+      cy.get(`[data-cy="albumSpotifyId"]`).type('Generic la').should('have.value', 'Generic la');
 
-      cy.get(`[data-cy="rank"]`).type('59929').should('have.value', '59929');
+      cy.get(`[data-cy="rank"]`).type('35945').should('have.value', '35945');
 
-      cy.get(`[data-cy="comment"]`).type('parsing Phased').should('have.value', 'parsing Phased');
+      cy.get(`[data-cy="comment"]`).type('transmit').should('have.value', 'transmit');
 
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {
-        expect(response!.statusCode).to.equal(201);
-        favoriteAlbum = response!.body;
+        expect(response.statusCode).to.equal(201);
+        favoriteAlbum = response.body;
       });
       cy.wait('@entitiesRequest').then(({ response }) => {
-        expect(response!.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(200);
       });
       cy.url().should('match', favoriteAlbumPageUrlPattern);
     });

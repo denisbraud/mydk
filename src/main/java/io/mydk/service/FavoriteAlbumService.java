@@ -50,7 +50,7 @@ public class FavoriteAlbumService {
      * @return the persisted entity.
      */
     public FavoriteAlbumDTO update(FavoriteAlbumDTO favoriteAlbumDTO) {
-        log.debug("Request to save FavoriteAlbum : {}", favoriteAlbumDTO);
+        log.debug("Request to update FavoriteAlbum : {}", favoriteAlbumDTO);
         FavoriteAlbum favoriteAlbum = favoriteAlbumMapper.toEntity(favoriteAlbumDTO);
         favoriteAlbum = favoriteAlbumRepository.save(favoriteAlbum);
         return favoriteAlbumMapper.toDto(favoriteAlbum);
