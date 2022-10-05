@@ -1,0 +1,27 @@
+{
+  "mydkApp": {
+    "favoriteAlbum": {
+      "home": {
+        "title": "FavoriteAlbums",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Favorite Album",
+        "createOrEditLabel": "Créer ou éditer un Favorite Album",
+        "notFound": "Aucun Favorite Album trouvé"
+      },
+      "created": "Un nouveau Favorite Album a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Favorite Album avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Favorite Album avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Favorite Album {{ id }} ?"
+      },
+      "detail": {
+        "title": "Favorite Album"
+      },
+      "id": "ID",
+      "login": "Login",
+      "albumSpotifyId": "Album Spotify Id",
+      "rank": "Rank",
+      "comment": "Comment"
+    }
+  }
+}
