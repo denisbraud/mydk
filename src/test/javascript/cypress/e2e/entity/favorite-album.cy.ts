@@ -44,7 +44,7 @@ describe('FavoriteAlbum e2e test', () => {
     cy.visit('/');
     cy.clickOnEntityMenuItem('favorite-album');
     cy.wait('@entitiesRequest').then(({ response }) => {
-      if (response!.body.length === 0) {
+      if (response.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
       } else {
         cy.get(entityTableSelector).should('exist');
@@ -115,11 +115,21 @@ describe('FavoriteAlbum e2e test', () => {
         cy.url().should('match', favoriteAlbumPageUrlPattern);
       });
 
-      it('edit button click should load edit FavoriteAlbum page', () => {
+      it('edit button click should load edit FavoriteAlbum page and go back', () => {
         cy.get(entityEditButtonSelector).first().click();
         cy.getEntityCreateUpdateHeading('FavoriteAlbum');
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
+        cy.wait('@entitiesRequest').then(({ response }) => {
+          expect(response?.statusCode ?? -1).to.equal(200);
+        });
+        cy.url().should('match', favoriteAlbumPageUrlPattern);
+      });
+
+      it('edit button click should load edit FavoriteAlbum page and save', () => {
+        cy.get(entityEditButtonSelector).first().click();
+        cy.getEntityCreateUpdateHeading('FavoriteAlbum');
+        cy.get(entityCreateSaveButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
           expect(response?.statusCode ?? -1).to.equal(200);
         });

@@ -20,7 +20,8 @@ export default class JhiNavbar extends Vue {
   private hasAnyAuthorityValues = {};
 
   created() {
-    this.translationService().refreshTranslation(this.currentLanguage);
+    const currentLanguage = Object.keys(this.languages).includes(navigator.language) ? navigator.language : this.currentLanguage;
+    this.translationService().refreshTranslation(currentLanguage);
   }
 
   public subIsActive(input) {
@@ -60,7 +61,9 @@ export default class JhiNavbar extends Vue {
     this.accountService()
       .hasAnyAuthorityAndCheckAuth(authorities)
       .then(value => {
-        this.hasAnyAuthorityValues[authorities] = value;
+        if (this.hasAnyAuthorityValues[authorities] !== value) {
+          this.hasAnyAuthorityValues = { ...this.hasAnyAuthorityValues, [authorities]: value };
+        }
       });
     return this.hasAnyAuthorityValues[authorities] ?? false;
   }

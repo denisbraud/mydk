@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 /**
  * A DTO for the {@link io.mydk.domain.FavoriteAlbum} entity.
  */
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class FavoriteAlbumDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
