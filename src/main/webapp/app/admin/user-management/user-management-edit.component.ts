@@ -87,13 +87,7 @@ export default class JhiUserManagementEdit extends Vue {
         .update(this.userAccount)
         .then(res => {
           this.returnToList();
-          (this.$root as any).$bvToast.toast(this.getMessageFromHeader(res).toString(), {
-            toaster: 'b-toaster-top-center',
-            title: 'Info',
-            variant: 'info',
-            solid: true,
-            autoHideDelay: 5000,
-          });
+          this.alertService().showHttpInfo(this, res);
         })
         .catch(error => {
           this.isSaving = true;
@@ -104,13 +98,7 @@ export default class JhiUserManagementEdit extends Vue {
         .create(this.userAccount)
         .then(res => {
           this.returnToList();
-          (this.$root as any).$bvToast.toast(this.getMessageFromHeader(res).toString(), {
-            toaster: 'b-toaster-top-center',
-            title: 'Success',
-            variant: 'success',
-            solid: true,
-            autoHideDelay: 5000,
-          });
+          this.alertService().showHttpInfo(this, res);
         })
         .catch(error => {
           this.isSaving = true;
@@ -122,9 +110,5 @@ export default class JhiUserManagementEdit extends Vue {
   private returnToList(): void {
     this.isSaving = false;
     (<any>this).$router.go(-1);
-  }
-
-  private getMessageFromHeader(res: any): any {
-    return this.$t(res.headers['x-mydkapp-alert'], { param: decodeURIComponent(res.headers['x-mydkapp-params'].replace(/\+/g, ' ')) });
   }
 }

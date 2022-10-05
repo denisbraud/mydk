@@ -72,15 +72,8 @@ export default class FavoriteAlbumUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = this.$t('mydkApp.favoriteAlbum.updated', {
+          this.alertService().showInfo(this, 'mydkApp.favoriteAlbum.updated', {
             param: this.favoriteAlbum.album ? this.favoriteAlbum.album.artistName + ' · ' + this.favoriteAlbum.album.name : param.id,
-          });
-          return (this.$root as any).$bvToast.toast(message.toString(), {
-            toaster: 'b-toaster-top-center',
-            title: 'Info',
-            variant: 'info',
-            solid: true,
-            autoHideDelay: 5000,
           });
         })
         .catch(error => {
@@ -93,15 +86,8 @@ export default class FavoriteAlbumUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = this.$t('mydkApp.favoriteAlbum.created', {
+          this.alertService().showInfo(this, 'mydkApp.favoriteAlbum.created', {
             param: this.favoriteAlbum.album ? this.favoriteAlbum.album.artistName + ' · ' + this.favoriteAlbum.album.name : param.id,
-          });
-          (this.$root as any).$bvToast.toast(message.toString(), {
-            toaster: 'b-toaster-top-center',
-            title: 'Success',
-            variant: 'success',
-            solid: true,
-            autoHideDelay: 5000,
           });
         })
         .catch(error => {
@@ -133,7 +119,7 @@ export default class FavoriteAlbumUpdate extends Vue {
     this.favoriteAlbumService()
       .delete(this.removeId)
       .then(() => {
-        this.alertService().show('danger', this, 'mydkApp.favoriteAlbum.deleted', {
+        this.alertService().showInfo(this, 'mydkApp.favoriteAlbum.deleted', {
           param: this.favoriteAlbum.album ? this.favoriteAlbum.album.artistName + ' · ' + this.favoriteAlbum.album.name : this.removeId,
         });
         this.removeId = null;

@@ -14,6 +14,14 @@ export default class AlertService {
   public showError(instance: Vue, message: string, params?: any) {
     this.show('danger', instance, message, params);
   }
+  public showInfo(instance: Vue, message: string, params?: any) {
+    this.show('info', instance, message, params);
+  }
+  public showHttpInfo(instance: Vue, res: any) {
+    const message = res.headers['x-mydkapp-alert'];
+    const params = { param: decodeURIComponent(res.headers['x-mydkapp-params'].replace(/\+/g, ' ')) };
+    this.show('info', instance, message, params);
+  }
   public showHttpError(instance: Vue, httpErrorResponse: any) {
     switch (httpErrorResponse.status) {
       case 0:

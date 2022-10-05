@@ -96,16 +96,7 @@ export default class JhiUserManagementComponent extends Vue {
     this.userManagementService()
       .remove(this.removeId)
       .then(res => {
-        const message = this.$t(res.headers['x-mydkapp-alert'], {
-          param: decodeURIComponent(res.headers['x-mydkapp-params'].replace(/\+/g, ' ')),
-        });
-        this.$bvToast.toast(message.toString(), {
-          toaster: 'b-toaster-top-center',
-          title: 'Info',
-          variant: 'danger',
-          solid: true,
-          autoHideDelay: 5000,
-        });
+        this.alertService().showHttpInfo(this, res);
         this.removeId = null;
         this.loadAll();
         this.closeDialog();

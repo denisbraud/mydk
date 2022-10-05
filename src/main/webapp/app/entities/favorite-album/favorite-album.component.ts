@@ -72,14 +72,7 @@ export default class FavoriteAlbum extends Vue {
     this.favoriteAlbumService()
       .delete(this.removeId)
       .then(() => {
-        const message = this.$t('mydkApp.favoriteAlbum.deleted', { param: this.removeId });
-        this.$bvToast.toast(message.toString(), {
-          toaster: 'b-toaster-top-center',
-          title: 'Info',
-          variant: 'danger',
-          solid: true,
-          autoHideDelay: 5000,
-        });
+        this.alertService().showInfo(this, 'mydkApp.favoriteAlbum.deleted', { param: this.removeId });
         this.removeId = null;
         this.retrieveAllFavoriteAlbums();
         this.closeDialog();
