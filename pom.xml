@@ -47,7 +47,7 @@
         <milestone_title>1.0.0</milestone_title>
 
         <!-- Build properties -->
-        <maven.version>3.2.5</maven.version>
+        <maven.version>3.8.6</maven.version>
         <java.version>11</java.version>
         <node.version>v16.17.0</node.version>
         <npm.version>8.19.1</npm.version>
@@ -338,6 +338,18 @@
             <artifactId>metrics-core</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+
+        <!--  pour eclipse qui ne comprend pas le profil dev par défaut -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
