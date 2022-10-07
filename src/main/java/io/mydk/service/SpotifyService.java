@@ -5,6 +5,7 @@ import io.mydk.repository.FavoriteAlbumRepository;
 import io.mydk.security.SecurityUtils;
 import io.mydk.service.dto.AlbumDTO;
 import io.mydk.service.dto.ArtistDTO;
+import io.mydk.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
@@ -110,9 +111,19 @@ public class SpotifyService {
                 return getArtistAlbums(artists.get(0), mainAlbumOnly);
             }
         }
-        Map<String, Object> result = getApiResult("search?type=album&offset=0&limit=50&q=" + q);
-        Map<String, Object> albums = getAttributes(result, "albums");
-        List<Map<String, Object>> itemsAlbums = getArray(albums, ITEMS);
+        int limit = 50;
+        String query = "search?type=album&q=" + q + "&limit=" + limit + "&offset=";
+        List<Map<String, Object>> itemsAlbums = new ArrayList<>();
+        int offset = 0;
+        int itemsAlbumsISize = limit;
+        while (itemsAlbumsISize == limit) {
+            Map<String, Object> result = getApiResult(query + offset);
+            Map<String, Object> albums = getAttributes(result, "albums");
+            List<Map<String, Object>> itemsAlbumsI = getArray(albums, ITEMS);
+            itemsAlbumsISize = itemsAlbumsI.size();
+            itemsAlbums.addAll(itemsAlbumsI);
+            offset += limit;
+        }
         List<AlbumDTO> dtos = mapToAlbums(itemsAlbums, mainAlbumOnly);
         if (exactMatch) {
             dtos = exactMatch(dtos, artistName, albumName);
@@ -123,8 +134,20 @@ public class SpotifyService {
     }
 
     public List<AlbumDTO> getArtistAlbums(ArtistDTO artist, boolean mainAlbumOnly) {
-        Map<String, Object> result = getApiResult("artists/" + artist.getSpotifyId() + "/albums?offset=0&limit=50&include_groups=album" + (mainAlbumOnly ? "" : ",compilation"));
-        List<Map<String, Object>> itemsAlbums = getArray(result, ITEMS);
+        // https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artists-albums
+        // https://developer.spotify.com/console/get-artist-albums/
+        int limit = 50;
+        String query = "artists/" + artist.getSpotifyId() + "/albums?include_groups=album" + (mainAlbumOnly ? "" : ",compilation") + "&limit=" + limit + "&offset=";
+        List<Map<String, Object>> itemsAlbums = new ArrayList<>();
+        int offset = 0;
+        int itemsAlbumsISize = limit;
+        while (itemsAlbumsISize == limit) {
+            Map<String, Object> result = getApiResult(query + offset);
+            List<Map<String, Object>> itemsAlbumsI = getArray(result, ITEMS);
+            itemsAlbumsISize = itemsAlbumsI.size();
+            itemsAlbums.addAll(itemsAlbumsI);
+            offset += limit;
+        }
         List<AlbumDTO> dtos = mapToAlbums(itemsAlbums, mainAlbumOnly);
         addFavoriteInfos(dtos);
         Collections.sort(dtos);
@@ -185,12 +208,16 @@ public class SpotifyService {
 
     private static boolean isMainAlbum(AlbumDTO dto) {
         String albumTypeLw = dto.getType().toLowerCase();
-        String nameLw = dto.getName().toLowerCase();
-        return "album".equals(albumTypeLw) && //
-            !nameLw.startsWith("live ") && !nameLw.startsWith("live:") //
+        return "album".equals(albumTypeLw) && isMainAlbumFromName(dto.getName()) && isMainAlbumFromName(dto.getNameSuffix());
+    }
+
+    private static boolean isMainAlbumFromName(String name) {
+        String nameLw = StringUtils.defaultString(name).toLowerCase();
+        return !nameLw.startsWith("live ") && !nameLw.equals("live") && !(nameLw.endsWith(" live") && !nameLw.endsWith("to live"))//
             && !nameLw.contains("b-sides") && !nameLw.contains("b sides") //
-            && !nameLw.contains(" remix") //
-            && !nameLw.contains(" selected songs") && !nameLw.contains("best of");
+            && !nameLw.contains("remix") && !nameLw.contains("singles") && !nameLw.contains("demos") //
+            && !nameLw.contains("retrospective") && !nameLw.contains("collection") && !nameLw.contains("itunes ")//
+            && !nameLw.contains("selected songs") && !nameLw.contains("best of");
     }
 
     private static List<ArtistDTO> exactMatch(List<ArtistDTO> dtos, String artistName) {
@@ -316,7 +343,7 @@ public class SpotifyService {
                 if (!isMainAlbum(dto)) {
                     continue;
                 }
-                String key = dto.getArtistName() + "-" + dto.getName();
+                String key = dto.getArtistName() + "-" + StringUtil.toCode(dto.getName());
                 albumsVersions.computeIfAbsent(key, k -> new TreeSet<>()).add(dto);
             } else {
                 dtos.add(dto);
@@ -333,12 +360,13 @@ public class SpotifyService {
     private static AlbumDTO mapToAlbum(Map<String, Object> album) {
         AlbumDTO dto = new AlbumDTO();
         dto.setSpotifyId((String) album.get("id"));
-
-        String[] names = StringUtils.split((String) album.get("name"), "(");
-        dto.setName(StringUtils.replace(names[0].trim(), "’", "'"));
-        if (names.length > 1) {
-            dto.setNameSuffix("(" + names[1].trim());
+        String name = StringUtils.replace((String) album.get("name"), "’", "'");
+        int index = StringUtils.indexOfAny(name, '(', ':');
+        if (index > 0) {
+            dto.setNameSuffix(name.substring(index).trim());
+            name = name.substring(0, index).trim();
         }
+        dto.setName(name);
         dto.setType((String) album.get("album_type"));
 
         dto.setReleaseDate(StringUtils.substringBefore((String) album.get("release_date"), "-"));

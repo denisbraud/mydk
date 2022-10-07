@@ -45,12 +45,10 @@ class SpotifyServiceTest {
             + "dEUS Worst Case Scenario 1994, "//
             + "dEUS In A Bar, Under The Sea 1996, "//
             + "dEUS The Ideal Crash 1999, "//
-            + "dEUS No More Loud Music - The Singles 2001, "//
             + "dEUS Pocket Revolution 2005, "//
             + "dEUS Vantage Point 2008, "//
             + "dEUS Keep You Close 2011, "//
-            + "dEUS Following Sea 2012, "//
-            + "dEUS Selected Songs 1994 - 2014 2014]", dtos.toString());
+            + "dEUS Following Sea 2012]", dtos.toString());
 
         dtos = spotifyService.searchAlbum("eiffel", "", true, true);
         assertEquals("["//
@@ -63,22 +61,56 @@ class SpotifyServiceTest {
             + "Eiffel Stupor Machine 2019]", dtos.toString());
 
         dtos = spotifyService.searchAlbum("pixies", "", true, true);
-        // TODO
         assertEquals("["//
-            //+ "Pixies Come On Pilgrim 1987, "//
-            //+ "Pixies Demos 1987, "//
-            //+ "Pixies Surfer Rosa 1988, "//
-            //+ "Pixies Doolittle 1989, "//
-            //+ "Pixies Bossanova 1990, "//
-            //+ "Pixies Trompe le Monde 1991, "//
-            //+ "Pixies Death to the Pixies 1997, "//
-            //+ "Pixies Indie Cindy 2014, "//
-            //+ "Pixies Head Carrier 2016, "//
-            //+ "Pixies Beneath the Eyrie (Deluxe) 2020, " //
+            + "Pixies Come On Pilgrim 1987, "//
+            + "Pixies Surfer Rosa 1988, "//
+            + "Pixies Doolittle 1989, "//
+            + "Pixies Bossanova 1990, "//
+            + "Pixies Trompe le Monde 1991, "//
+            + "Pixies Indie Cindy 2014, "//
+            + "Pixies Head Carrier 2016, "//
+            + "Pixies Beneath the Eyrie (Deluxe) 2020, " //
             + "Pixies Doggerel 2022]", dtos.toString());
 
         dtos = spotifyService.searchAlbum("Pixies", "Doolittle", true, true);
         assertEquals("[Pixies Doolittle 1989]", dtos.toString());
+
+        dtos = spotifyService.searchAlbum("Björk", "", true, true);
+        assertEquals("["//
+            + "Björk Gling-Glo 1990, "//
+            + "Björk Debut 1993, "//
+            + "Björk Post 1995, "//
+            + "Björk Telegram 1996, "//
+            + "Björk Homogenic 1997, "//
+            + "Björk Selma Songs 2000, "//
+            + "Björk Vespertine 2001, "//
+            + "Björk Family tree 2002, "//
+            + "Björk Medulla 2004, "//
+            + "Björk Drawing Restraint 9 2005, "//
+            + "Björk Volta 2007, "//
+            + "Björk Voltaic 2009, "//
+            + "Dirty Projectors Björk Mount Wittenberg Orca 2011, "//
+            + "Björk Biophilia 2011, "//
+            + "Björk Bastards 2012, "//
+            + "Björk Vulnicura 2015, "//
+            + "Björk Vulnicura Strings 2015, "//
+            + "Björk Utopia 2017, "//
+            + "Björk Fossora 2022]", dtos.toString());
+
+        dtos = spotifyService.searchAlbum("Ben Harper", "", true, true);
+        assertEquals("[Ben Harper Welcome To The Cruel World 1994, "//
+            + "Ben Harper Fight For Your Mind 1995, "//
+            + "Ben Harper The Will To Live 1997, "//
+            + "Ben Harper Diamonds On The Inside 2003, "//
+            + "Ben Harper The Blind Boys Of Alabama There Will Be A Light 2004, "//
+            + "Ben Harper Both Sides Of The Gun 2006, "//
+            + "Ben Harper Innocent Criminals Lifeline Tour Edition 2008, "//
+            + "Ben Harper Give Till It's Gone 2011, "//
+            + "Ben Harper Charlie Musselwhite Get Up! 2013, "//
+            + "Ben Harper Ellen Harper Childhood Home 2014, "//
+            + "Ben Harper Charlie Musselwhite No Mercy In This Land (Deluxe Edition) 2018, "//
+            + "Ben Harper Winter Is For Lovers 2020, "//
+            + "Ben Harper Bloodline Maintenance 2022]", dtos.toString());
     }
 
     @Test
